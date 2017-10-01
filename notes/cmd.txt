@@ -1,1 +1,7 @@
 git使用：
+
+git status 查看状态
+git add  c/test-linux.c    add 后方为添加的文件
+git commit -m "some message"
+git push 
+最后去网站刷新https://github.com/staywhite/learning

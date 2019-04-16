@@ -1,0 +1,50 @@
+#include <DHT.h>
+#include <LiquidCrystal_I2C.h>
+#include <Wire.h> 
+#include <Adafruit_Sensor.h>
+
+LiquidCrystal_I2C lcd(0x27,16,2); //设置地址为0x27 16字符 2行
+ 
+//定义针脚
+#define DHTPIN 3 
+#define pinpon 7
+//定义类型，DHT11或者其它
+#define DHTTYPE DHT11
+//进行初始设置 
+DHT dht(DHTPIN, DHTTYPE);
+
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin(); //DHT开始工作
+  pinMode(pinpon,OUTPUT);
+  lcd.init();                      //初始化LCD
+  lcd.backlight();                 //打开背景灯
+  lcd.setCursor(0,0);              //光标复位
+  lcd.print("Welcome to use!");    //传感器已稳定，欢迎使用  
+  delay(1000);
+  lcd.clear();                     //清屏
+}
+
+void loop() {
+  float h = dht.readHumidity();//读湿度
+  float t = dht.readTemperature();//读温度，默认为摄氏度
+
+  if(t>30){
+      digitalWrite(pinpon, HIGH);
+      delay(2000);
+  }
+  
+  lcd.setCursor(0,0);
+  lcd.print("H: ");
+  lcd.print(h);
+  
+  lcd.setCursor(0,1);
+  lcd.print("T: ");
+  lcd.print(t);
+  lcd.print(" C");
+
+  delay(2000);
+  
+  lcd.clear();
+}
